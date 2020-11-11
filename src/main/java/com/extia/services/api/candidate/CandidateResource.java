@@ -16,9 +16,10 @@ public class CandidateResource {
     @Autowired
     private CandidateService candidateService;
 
+
+    // Get All Candidates by ID  GET /api/v1/candidates
     @GetMapping("/candidates")
     public ResponseEntity<List<Candidate>> getAllCandidates() {
-
         try {
             List<Candidate> candidateData = candidateService.getAll();
             return new ResponseEntity<>(candidateData, HttpStatus.OK);
@@ -28,15 +29,13 @@ public class CandidateResource {
     }
 
 
-    // Get single resource by ID  GET /api/resources/{id}
+    // Get single candidate by ID  GET /api/v1/candidates/{id}
     @GetMapping("/candidates/{id}")
     public ResponseEntity<Candidate> getCandidateById(@PathVariable("id") long id) {
-        Optional<Candidate> candidateData = candidateService.getById(id);
-        if (candidateData.isPresent()) {
-            return new ResponseEntity<Candidate>(candidateData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return Optional.of(candidateService.getById(id)).map(
+                candidate ->
+                        new ResponseEntity<Candidate>(candidate.get(), HttpStatus.OK)
+        ).orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/candidates")
@@ -45,10 +44,10 @@ public class CandidateResource {
             Candidate candidateData = candidateService.insertCandidate(candidate);
             return new ResponseEntity<>(candidateData, HttpStatus.CREATED);
         } catch (Exception exception) {
+            exception.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @PostMapping("/candidates/many")
     public ResponseEntity<List<Candidate>> createCandidates(@RequestBody List<Candidate> candidates) {
@@ -63,14 +62,11 @@ public class CandidateResource {
 
     @PutMapping("/candidates/{id}")
     public ResponseEntity<Candidate> updateCandidate(@PathVariable("id") long id, @RequestBody Candidate candidate) {
-        Optional<Candidate> candidateData = candidateService.getById(id);
+        return Optional.of(candidateService.getById(id)).map(
+                _candidate ->
+                        new ResponseEntity<Candidate>(candidateService.insertCandidate(_candidate.get()), HttpStatus.OK)
+        ).orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 
-        if (candidateData.isPresent()) {
-            Candidate _candidate = candidateData.get();
-            return new ResponseEntity<>(candidateService.insertCandidate(_candidate), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @DeleteMapping("/candidates/{id}")
@@ -92,8 +88,6 @@ public class CandidateResource {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
 
 

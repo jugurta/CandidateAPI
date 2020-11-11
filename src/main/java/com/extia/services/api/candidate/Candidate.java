@@ -22,19 +22,19 @@ public class Candidate {
     private long id;
 
     @Column(name = "candidate_name")
-    @Size(min = 5, max = 50)
+
     private String name;
 
     @Column(name = "candidate_surname")
-    @Size(min = 5, max = 50)
+
     private String surname;
 
     @Column(name = "candidate_age")
-    @Size(min = 5, max = 50)
+
     private long age;
 
     @Column(name = "candidate_interview_mark")
-    @Size(min = 5, max = 50)
+
     private long interview_mark;
 
 }

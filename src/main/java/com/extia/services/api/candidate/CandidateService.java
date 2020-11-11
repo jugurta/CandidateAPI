@@ -3,6 +3,7 @@ package com.extia.services.api.candidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,9 @@ public class CandidateService {
 
     public void deletesCandidates(List<Candidate> candidates)
     {
-        this.candidateRepository.deleteAll(candidates);
-        this.candidateRepository.flush();
+        List<Long> candidate_ids = new ArrayList<>();
+        candidates.forEach(candidate -> candidate_ids.add(candidate.getId()));
+        this.candidateRepository.deleteCandidatesWithIds(candidate_ids);
+
     }
 }
