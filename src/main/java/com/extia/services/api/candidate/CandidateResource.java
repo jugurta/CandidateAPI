@@ -40,9 +40,9 @@ public class CandidateResource {
     }
 
     @PostMapping("/candidates")
-    public ResponseEntity<Candidate> createResource(@RequestBody Candidate candidate) {
+    public ResponseEntity<Candidate> createCandidate(@RequestBody Candidate candidate) {
         try {
-            Candidate candidateData = null;
+            Candidate candidateData = candidateService.insertCandidate(candidate);
             return new ResponseEntity<>(candidateData, HttpStatus.CREATED);
         } catch (Exception exception) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,5 +50,52 @@ public class CandidateResource {
     }
 
 
+    @PostMapping("/candidates/many")
+    public ResponseEntity<List<Candidate>> createCandidates(@RequestBody List<Candidate> candidates) {
+        try {
+            List<Candidate> candidateData = candidateService.insertCandidates(candidates);
+            return new ResponseEntity<>(candidateData, HttpStatus.CREATED);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PutMapping("/candidates/{id}")
+    public ResponseEntity<Candidate> updateCandidate(@PathVariable("id") long id, @RequestBody Candidate candidate) {
+        Optional<Candidate> candidateData = candidateService.getById(id);
+
+        if (candidateData.isPresent()) {
+            Candidate _candidate = candidateData.get();
+            return new ResponseEntity<>(candidateService.insertCandidate(_candidate), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/candidates/{id}")
+    public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("id") long id) {
+        try {
+            candidateService.deleteCandidateById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/candidates/many")
+    public ResponseEntity<HttpStatus> deleteCandidates(@RequestBody List<Candidate> candidates) {
+        try {
+            candidateService.deletesCandidates(candidates);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
+
+
+
 

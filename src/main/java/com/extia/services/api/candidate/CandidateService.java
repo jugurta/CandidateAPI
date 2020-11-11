@@ -20,7 +20,7 @@ public class CandidateService {
         return this.candidateRepository.findById(id);
     }
 
-    public void deleteById(long id) {
+    public void deleteCandidateById(long id) {
         this.candidateRepository.deleteById(id);
     }
 
@@ -34,5 +34,9 @@ public class CandidateService {
         return this.candidateRepository.saveAll(candidates);
     }
 
-    public void deletesCandidatesByIds(long [] ids)
+    public void deletesCandidates(List<Candidate> candidates)
+    {
+        this.candidateRepository.deleteAll(candidates);
+        this.candidateRepository.flush();
+    }
 }
