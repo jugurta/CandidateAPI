@@ -73,7 +73,7 @@ public class CandidateResource {
     public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("id") long id) {
         try {
             candidateService.deleteCandidateById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -83,7 +83,7 @@ public class CandidateResource {
     public ResponseEntity<HttpStatus> deleteCandidates(@RequestBody List<Candidate> candidates) {
         try {
             candidateService.deletesCandidates(candidates);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface CandidateRepository  extends JpaRepository<Candidate,Long> {
+public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     @Modifying
     @Transactional

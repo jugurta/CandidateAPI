@@ -21,25 +21,25 @@ public class CandidateService {
         return this.candidateRepository.findById(id);
     }
 
-    public void deleteCandidateById(long id) {
+    public boolean deleteCandidateById(long id) {
+
         this.candidateRepository.deleteById(id);
+        return true;
     }
 
-    public Candidate insertCandidate(Candidate candidate)
-    {
+    public Candidate insertCandidate(Candidate candidate) {
         return this.candidateRepository.save(candidate);
     }
 
-    public List<Candidate> insertCandidates(List<Candidate> candidates)
-    {
+    public List<Candidate> insertCandidates(List<Candidate> candidates) {
         return this.candidateRepository.saveAll(candidates);
     }
 
-    public void deletesCandidates(List<Candidate> candidates)
-    {
+    public boolean deletesCandidates(List<Candidate> candidates) {
         List<Long> candidate_ids = new ArrayList<>();
         candidates.forEach(candidate -> candidate_ids.add(candidate.getId()));
         this.candidateRepository.deleteCandidatesWithIds(candidate_ids);
+        return true;
 
     }
 }
