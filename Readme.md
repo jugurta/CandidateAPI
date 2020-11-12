@@ -24,6 +24,9 @@ Candidates API.
     
     -Xms256M -Xmx256M -XX:MaxMetaspaceSize=256m -noverify -XX:TieredStopAtLevel=1 -XX:+AlwaysPreTouch -Dspring.profiles.active=local -DskipITs
     
+   To display the swagger screen go to the url below:
+   
+    http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
 
 
     
